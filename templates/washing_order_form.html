@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+Form
+{% endblock title %}
+
+{% block content %}
+
+
+<!-- Modal -->
+
+<div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModal2Label">Your order is placed to your nearest washer</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Washer name: {{washer_name}} with distance: {{ distance }} km
+        </div>
+      </div>
+    </div>
+  </div>
+<br>
+
+
+<!-- Modal -->
+<br>
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Your nearest washer is not available right now:</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <!-- {{ distance }} km -->
+        </div>
+      </div>
+    </div>
+  </div>
+<br>
+<h1 style="color: rgb(29, 100, 233);">Hello and welcome to Automatic Car Washer System!</h1>
+<h2>Please Enter your details below:</h2>
+<p>The System will assign a washer automatically nearest to your location!</p>
+<br>
+<form action="" enctype="multipart/form-data" method="POST">
+    {% csrf_token %}
+    {{form|crispy}}
+    <br>
+    <button type="submit" class="btn btn-primary">Confirm Order</button>
+</form>
+
+<br>
+This product includes GeoLite2 data created by MaxMind, available from
+<a href="https://www.maxmind.com">https://www.maxmind.com</a>.
+
+{% if request.POST and form_sub_cond is False %}
+    <script>
+        $(window).on('load', function(){
+            $('#exampleModal').modal('show')
+        })
+    </script>
+{% elif request.POST and form_sub_cond is True %}
+<script>
+    $(window).on('load', function(){
+        $('#exampleModal2').modal('show')
+    })
+</script>
+{% endif %}
+
+{% endblock content %}
